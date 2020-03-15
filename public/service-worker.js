@@ -14,26 +14,6 @@ const FILES_TO_CACHE = [
 const CACHE_NAME = "static-cache-v2";
 const DATA_CACHE_NAME = "data-cache-v1";
 
-const status = await navigator.permissions.query({
-  name: 'periodic-background-sync',
-});
-if (status.state === 'granted') {
-  // Periodic background sync can be used.
-
-} else {
-  // Periodic background sync cannot be used.
-}
-
-async function updateTransaction() {
-  const transactionCache = await caches.open('transactions');
-  await transactionCache.add('/api/transaction');
-}
-
-self.addEventListener('periodicsync', (event) => {
-  if (event.tag === 'update-transactions') {
-    event.waitUntil(updateTransaction());
-  }
-});
 
 self.addEventListener('install', function(evt) {
   evt.waitUntil(

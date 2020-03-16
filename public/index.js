@@ -1,3 +1,5 @@
+// import { useIndexedDb } from "./indexedDb";
+
 let transactions = [];
 let myChart;
 
@@ -66,14 +68,14 @@ function populateChart() {
 
   myChart = new Chart(ctx, {
     type: 'line',
-      data: {
-        labels,
-        datasets: [{
-            label: "Total Over Time",
-            fill: true,
-            backgroundColor: "#6666ff",
-            data
-        }]
+    data: {
+      labels,
+      datasets: [{
+        label: "Total Over Time",
+        fill: true,
+        backgroundColor: "#6666ff",
+        data
+      }]
     }
   });
 }
@@ -87,8 +89,7 @@ function sendTransaction(isAdding) {
   if (nameEl.value === "" || amountEl.value === "") {
     errorEl.textContent = "Missing Information";
     return;
-  }
-  else {
+  } else {
     errorEl.textContent = "";
   }
 
@@ -111,37 +112,39 @@ function sendTransaction(isAdding) {
   populateChart();
   populateTable();
   populateTotal();
-  
+
   // also send to server
   fetch("/api/transaction", {
-    method: "POST",
-    body: JSON.stringify(transaction),
-    headers: {
-      Accept: "application/json, text/plain, */*",
-      "Content-Type": "application/json"
-    }
-  })
-  .then(response => {    
-    return response.json();
-  })
-  .then(data => {
-    if (data.errors) {
-      errorEl.textContent = "Missing Information";
-    }
-    else {
+      method: "POST",
+      body: JSON.stringify(transaction),
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json"
+      }
+    })
+    .then(response => {
+      return response.json();
+    })
+    .then(data => {
+      if (data.errors) {
+        errorEl.textContent = "Missing Information";
+      } else {
+        // clear form
+        nameEl.value = "";
+        amountEl.value = "";
+      }
+    })
+    .catch(err => {
+      // fetch failed, so save in indexed db
+      saveRecord(transaction);
+      // useIndexedDb("budget", "pending", "get", transaction).then(results => {
+      //   console.log(results)
+      // });
+
       // clear form
       nameEl.value = "";
       amountEl.value = "";
-    }
-  })
-  .catch(err => {
-    // fetch failed, so save in indexed db
-    saveRecord(transaction);
-
-    // clear form
-    nameEl.value = "";
-    amountEl.value = "";
-  });
+    });
 }
 
 document.querySelector("#add-btn").onclick = function() {

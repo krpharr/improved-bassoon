@@ -1,100 +1,30 @@
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./index.js");
-/******/ })
-/************************************************************************/
-/******/ ({
+! function(e) { var t = {};
 
-/***/ "./index.js":
-/*!******************!*\
-  !*** ./index.js ***!
-  \******************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+  function n(o) { if (t[o]) return t[o].exports; var r = t[o] = { i: o, l: !1, exports: {} }; return e[o].call(r.exports, r, r.exports, n), r.l = !0, r.exports }
+  n.m = e, n.c = t, n.d = function(e, t, o) { n.o(e, t) || Object.defineProperty(e, t, { enumerable: !0, get: o }) }, n.r = function(e) { "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(e, Symbol.toStringTag, { value: "Module" }), Object.defineProperty(e, "__esModule", { value: !0 }) }, n.t = function(e, t) { if (1 & t && (e = n(e)), 8 & t) return e; if (4 & t && "object" == typeof e && e && e.__esModule) return e; var o = Object.create(null); if (n.r(o), Object.defineProperty(o, "default", { enumerable: !0, value: e }), 2 & t && "string" != typeof e)
+      for (var r in e) n.d(o, r, function(t) { return e[t] }.bind(null, r)); return o }, n.n = function(e) { var t = e && e.__esModule ? function() { return e.default } : function() { return e }; return n.d(t, "a", t), t }, n.o = function(e, t) { return Object.prototype.hasOwnProperty.call(e, t) }, n.p = "", n(n.s = 0) }([function(e, t, n) { n(1), e.exports = n(2) }, function(e, t) { let n; const o = indexedDB.open("budget", 1);
 
-eval("// import { useIndexedDb } from \"./indexedDb\";\n\nlet transactions = [];\nlet myChart;\n\nfetch(\"/api/transaction\")\n  .then(response => {\n    return response.json();\n  })\n  .then(data => {\n    // save db data on global variable\n    transactions = data;\n\n    populateTotal();\n    populateTable();\n    populateChart();\n  });\n\nfunction populateTotal() {\n  // reduce transaction amounts to a single total value\n  let total = transactions.reduce((total, t) => {\n    return total + parseInt(t.value);\n  }, 0);\n\n  let totalEl = document.querySelector(\"#total\");\n  totalEl.textContent = total;\n}\n\nfunction populateTable() {\n  let tbody = document.querySelector(\"#tbody\");\n  tbody.innerHTML = \"\";\n\n  transactions.forEach(transaction => {\n    // create and populate a table row\n    let tr = document.createElement(\"tr\");\n    tr.innerHTML = `\n      <td>${transaction.name}</td>\n      <td>${transaction.value}</td>\n    `;\n\n    tbody.appendChild(tr);\n  });\n}\n\nfunction populateChart() {\n  // copy array and reverse it\n  let reversed = transactions.slice().reverse();\n  let sum = 0;\n\n  // create date labels for chart\n  let labels = reversed.map(t => {\n    let date = new Date(t.date);\n    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;\n  });\n\n  // create incremental values for chart\n  let data = reversed.map(t => {\n    sum += parseInt(t.value);\n    return sum;\n  });\n\n  // remove old chart if it exists\n  if (myChart) {\n    myChart.destroy();\n  }\n\n  let ctx = document.getElementById(\"myChart\").getContext(\"2d\");\n\n  myChart = new Chart(ctx, {\n    type: 'line',\n    data: {\n      labels,\n      datasets: [{\n        label: \"Total Over Time\",\n        fill: true,\n        backgroundColor: \"#6666ff\",\n        data\n      }]\n    }\n  });\n}\n\nfunction sendTransaction(isAdding) {\n  let nameEl = document.querySelector(\"#t-name\");\n  let amountEl = document.querySelector(\"#t-amount\");\n  let errorEl = document.querySelector(\".form .error\");\n\n  // validate form\n  if (nameEl.value === \"\" || amountEl.value === \"\") {\n    errorEl.textContent = \"Missing Information\";\n    return;\n  } else {\n    errorEl.textContent = \"\";\n  }\n\n  // create record\n  let transaction = {\n    name: nameEl.value,\n    value: amountEl.value,\n    date: new Date().toISOString()\n  };\n\n  // if subtracting funds, convert amount to negative number\n  if (!isAdding) {\n    transaction.value *= -1;\n  }\n\n  // add to beginning of current array of data\n  transactions.unshift(transaction);\n\n  // re-run logic to populate ui with new record\n  populateChart();\n  populateTable();\n  populateTotal();\n\n  // also send to server\n  fetch(\"/api/transaction\", {\n      method: \"POST\",\n      body: JSON.stringify(transaction),\n      headers: {\n        Accept: \"application/json, text/plain, */*\",\n        \"Content-Type\": \"application/json\"\n      }\n    })\n    .then(response => {\n      return response.json();\n    })\n    .then(data => {\n      if (data.errors) {\n        errorEl.textContent = \"Missing Information\";\n      } else {\n        // clear form\n        nameEl.value = \"\";\n        amountEl.value = \"\";\n      }\n    })\n    .catch(err => {\n      // fetch failed, so save in indexed db\n      saveRecord(transaction);\n      // useIndexedDb(\"budget\", \"pending\", \"get\", transaction).then(results => {\n      //   console.log(results)\n      // });\n\n      // clear form\n      nameEl.value = \"\";\n      amountEl.value = \"\";\n    });\n}\n\ndocument.querySelector(\"#add-btn\").onclick = function() {\n  sendTransaction(true);\n};\n\ndocument.querySelector(\"#sub-btn\").onclick = function() {\n  sendTransaction(false);\n};\n\n//# sourceURL=webpack:///./index.js?");
+  function r() { const e = n.transaction(["pending"], "readwrite").objectStore("pending").getAll();
+    e.onsuccess = function() { e.result.length > 0 && fetch("/api/transaction/bulk", { method: "POST", body: JSON.stringify(e.result), headers: { Accept: "application/json, text/plain, */*", "Content-Type": "application/json" } }).then(e => e.json()).then(() => { n.transaction(["pending"], "readwrite").objectStore("pending").clear() }) } }
+  o.onupgradeneeded = function(e) { e.target.result.createObjectStore("pending", { autoIncrement: !0 }) }, o.onsuccess = function(e) { n = e.target.result, navigator.onLine && r() }, o.onerror = function(e) { console.log("Woops! " + e.target.errorCode) }, window.addEventListener("online", r) }, function(e, t) { let n, o = [];
 
-/***/ })
+  function r() { let e = o.reduce((e, t) => e + parseInt(t.value), 0);
+    document.querySelector("#total").textContent = e }
 
-/******/ });
+  function a() { let e = document.querySelector("#tbody");
+    e.innerHTML = "", o.forEach(t => { let n = document.createElement("tr");
+      n.innerHTML = `\n      <td>${t.name}</td>\n      <td>${t.value}</td>\n    `, e.appendChild(n) }) }
+
+  function u() { let e = o.slice().reverse(),
+      t = 0,
+      r = e.map(e => { let t = new Date(e.date); return `${t.getMonth()+1}/${t.getDate()}/${t.getFullYear()}` }),
+      a = e.map(e => (t += parseInt(e.value), t));
+    n && n.destroy(); let u = document.getElementById("myChart").getContext("2d");
+    n = new Chart(u, { type: "line", data: { labels: r, datasets: [{ label: "Total Over Time", fill: !0, backgroundColor: "#6666ff", data: a }] } }) }
+
+  function i(e) { let t = document.querySelector("#t-name"),
+      n = document.querySelector("#t-amount"),
+      i = document.querySelector(".form .error"); if ("" === t.value || "" === n.value) return void(i.textContent = "Missing Information");
+    i.textContent = ""; let c = { name: t.value, value: n.value, date: (new Date).toISOString() };
+    e || (c.value *= -1), o.unshift(c), u(), a(), r(), fetch("/api/transaction", { method: "POST", body: JSON.stringify(c), headers: { Accept: "application/json, text/plain, */*", "Content-Type": "application/json" } }).then(e => e.json()).then(e => { e.errors ? i.textContent = "Missing Information" : (t.value = "", n.value = "") }).catch(e => { saveRecord(c), t.value = "", n.value = "" }) }
+  fetch("/api/transaction").then(e => e.json()).then(e => { o = e, r(), a(), u() }), document.querySelector("#add-btn").onclick = function() { i(!0) }, document.querySelector("#sub-btn").onclick = function() { i(!1) } }]);
